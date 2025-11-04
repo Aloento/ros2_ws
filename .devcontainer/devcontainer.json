@@ -1,0 +1,21 @@
+{
+  "name": "ros2-humble",
+  "dockerFile": "Dockerfile",
+  "runArgs": [
+    "--privileged",
+    "--network=host",
+    "-e", "DISPLAY=${localEnv:DISPLAY}",
+    "-e", "XAUTHORITY=/tmp/.Xauthority",
+    "-v", "/home/ubuntu/.Xauthority:/tmp/.Xauthority:ro"
+  ],
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "XAUTHORITY": "/tmp/.Xauthority"
+  },
+  "workspaceMount": "source=/home/ubuntu/ros2_ws,target=/home/ubuntu/ros2_ws,type=bind",
+  "workspaceFolder": "/home/ubuntu/ros2_ws",
+  "remoteUser": "ubuntu",
+  "mounts": [
+    "source=/home/ubuntu/.bash_history,target=/home/ubuntu/.bash_history,type=bind"
+  ]
+}
