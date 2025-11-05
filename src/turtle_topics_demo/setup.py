@@ -10,6 +10,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/turtle_topics_demo/launch', ['launch/full_stack_demo.launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -27,6 +28,8 @@ setup(
             'vel_pub     = turtle_topics_demo.vel_publisher:main',
             'pose_sub    = turtle_topics_demo.pose_subscriber:main',
             'cmdvel_echo = turtle_topics_demo.cmdvel_subscriber:main',
+            'rot_client  = turtle_topics_demo.rotate_action_client:main',
+            'reset_srv   = turtle_topics_demo.reset_service:main',
         ],
     },
 )
