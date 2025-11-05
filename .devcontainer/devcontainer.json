@@ -1,16 +1,22 @@
 {
-  "name": "ros2-humble",
+  "name": "ros2-humble-desktop-full",
   "dockerFile": "Dockerfile",
   "runArgs": [
     "--privileged",
     "--network=host",
+    // X11 显示转发
     "-e", "DISPLAY=${localEnv:DISPLAY}",
     "-e", "XAUTHORITY=/tmp/.Xauthority",
-    "-v", "/home/ubuntu/.Xauthority:/tmp/.Xauthority:ro"
+    "-v", "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+    "-v", "/home/ubuntu/.Xauthority:/tmp/.Xauthority:ro",
+    // 共享内存大小（Gazebo/RViz 可能需要）
+    "--shm-size=512m"
   ],
   "containerEnv": {
     "DISPLAY": "${localEnv:DISPLAY}",
-    "XAUTHORITY": "/tmp/.Xauthority"
+    "XAUTHORITY": "/tmp/.Xauthority",
+    "QT_X11_NO_MITSHM": "1",
+    "LIBGL_ALWAYS_INDIRECT": "0"
   },
   "workspaceMount": "source=/home/ubuntu/ros2_ws,target=/home/ubuntu/ros2_ws,type=bind",
   "workspaceFolder": "/home/ubuntu/ros2_ws",

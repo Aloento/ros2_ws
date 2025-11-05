@@ -1,18 +1,18 @@
-FROM ros:humble-ros-base
+FROM osrf/ros:humble-desktop-full
 
 # 同步容器内用户到宿主UID/GID，避免文件权限错乱
 ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 
-# 基础工具
+# 基础工具 + GUI 支持（desktop-full 已包含: ros-dev-tools, turtlesim, rviz, gazebo 等）
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo git curl vim nano locales tzdata \
+    sudo git curl vim nano \
     python3-pip python3-colcon-common-extensions \
-    ros-dev-tools \
     bash-completion \
-    # 可选：头less GUI 支持（xvfb + ros2 turtlesim）
-    xvfb x11-apps ros-humble-turtlesim \
+    # GUI 支持
+    x11-apps mesa-utils \
+    libgl1-mesa-glx libgl1-mesa-dri \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建同UID用户并给sudo免密
