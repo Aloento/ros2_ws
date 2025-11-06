@@ -1,5 +1,3 @@
-import math
-
 import rclpy
 from geometry_msgs.msg import Twist
 from rclpy.node import Node
@@ -24,36 +22,48 @@ class TurtleController(Node):
         )
         
         self.stop_timer = None
+        self.is_executing = False
         
         self.get_logger().info('Turtle Controller Node Started')
         self.get_logger().info('Subscribed to topic: sensor2_signal')
         self.get_logger().info('Publishing to topic: /turtle1/cmd_vel')
     
     def sensor_callback(self, msg):
+        if self.is_executing:
+            return
+        
         sensor_value = msg.data
         cmd_vel = Twist()
         
+        self.is_executing = True
+
         if sensor_value < 0:
             cmd_vel.linear.x = 1.0
             cmd_vel.angular.z = 0.0
             self.get_logger().info(f'Sensor value: {sensor_value} (negative) -> move forward 1.0 unit')
+            duration = 5.0
             
         elif sensor_value > 0 and sensor_value % 2 == 1:
             cmd_vel.linear.x = 0.0
-            cmd_vel.angular.z = -math.pi / 2
+            cmd_vel.angular.z = -1.5708
             self.get_logger().info(f'Sensor value: {sensor_value} (positive odd) -> turn right 90 degrees')
+            duration = 5.0
             
         elif sensor_value > 0 and sensor_value % 2 == 0:
             cmd_vel.linear.x = 0.0
-            cmd_vel.angular.z = math.pi / 2
+            cmd_vel.angular.z = 1.5708
             self.get_logger().info(f'Sensor value: {sensor_value} (positive even) -> turn left 90 degrees')
+            duration = 5.0
+        else:
+            self.is_executing = False
+            return
         
         self.publisher.publish(cmd_vel)
         
         if self.stop_timer is not None:
             self.stop_timer.cancel()
         
-        self.stop_timer = self.create_timer(1.0, self.stop_turtle_callback)
+        self.stop_timer = self.create_timer(duration, self.stop_turtle_callback)
     
     def stop_turtle_callback(self):
         stop_cmd = Twist()
@@ -64,6 +74,9 @@ class TurtleController(Node):
         if self.stop_timer is not None:
             self.stop_timer.cancel()
             self.stop_timer = None
+        
+        self.is_executing = False
+        self.get_logger().info('Action completed, ready for next command')
 
 
 def main(args=None):
