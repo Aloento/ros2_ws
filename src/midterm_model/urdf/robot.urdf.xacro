@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<robot name="robot1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- Dummy root for KDL-->
+    <link name="dummy_root"/>
+
+    <joint name="basejoint" type="fixed">
+        <parent link="dummy_root"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+<!--END of Dummy root-->
+
+<!-- Start of robot description -->
+
+   
+
+
+
+
+<!-- End of robot description -->
+
+</robot>
