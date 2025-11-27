@@ -171,12 +171,12 @@
 
     <!-- ============================================== -->
     <!-- Joint: J_2 (Revolute)                         -->
-    <!-- Origin: xyz="0 0.9 0.2", Axis: Z              -->
+    <!-- Origin: xyz="0 1.0 0.2", Axis: Z              -->
     <!-- ============================================== -->
     <joint name="J_2" type="revolute">
         <parent link="link_03"/>
         <child link="link_04"/>
-        <origin xyz="0 0.8 0.2" rpy="0 0 0"/>
+        <origin xyz="0 0.85 0.15" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
         <limit lower="-3.14" upper="3.14" effort="100" velocity="1.0"/>
     </joint>
@@ -187,7 +187,7 @@
     <!-- ============================================== -->
     <link name="link_04">
         <visual>
-            <origin xyz="0 0.5 -0.05" rpy="0 0 0"/>
+            <origin xyz="0 0.4 0" rpy="0 0 0"/>
             <geometry>
                 <box size="0.2 1.0 0.1"/>
             </geometry>
@@ -213,7 +213,7 @@
     <joint name="J_3" type="revolute">
         <parent link="link_04"/>
         <child link="effector"/>
-        <origin xyz="0 1.0 -0.05" rpy="1.5708 1.5708 3.14159"/>
+        <origin xyz="0 1.0 0" rpy="1.5708 1.5708 3.14159"/>
         <axis xyz="0 0 1"/>
         <limit lower="-3.14" upper="3.14" effort="100" velocity="1.0"/>
     </joint>
@@ -224,7 +224,7 @@
     <!-- ============================================== -->
     <link name="effector">
         <visual>
-            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <origin xyz="-0.0 0 -0.05" rpy="0 0 0"/>
             <geometry>
                 <box size="0.2 0.2 0.1"/>
             </geometry>
